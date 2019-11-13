@@ -31,8 +31,9 @@ tbname=
 time=
 #time=`seq 0 2 35`，比如今天日期为11月12号，此时间参数通过后续处理表示11/12,11/10,11/08，......，10/09
 
-ls /data/all & >/dev/null ||mkdir /data/all;cd /data/all   #此为项目的主目录，
+ls /data/all & >/dev/null ||mkdir /data/all;cd /data/all   #此为设置项目的主目录，
 
+#此为判断处理内容为库or表
 if [ -z "$dbname" ];then
   $extract = TABLE;
   $match_str = $tbname;
@@ -77,9 +78,10 @@ for i in ${time};do
   path=`date -d "${i} days ago" "+%Y-%m-%d"`;
   ls $path &>/dev/null || mkdir $path ;
   cd $path/out;
+  #此处假定唯一自增字段为   id   .
   maxid=`mysql -u ${user} -p${password} -P${port} -h${ip} -D ${path} -e "select max(id) from ${match_str}" |grep -v id | awk '{print $1}' `;
   LOG "查询${i}数据成功, ID最大值${maxid}, ID最小值${minid}" ; 
-  ＃表数据
+  #表数据
   mysqldump -u ${user} -p${password} -P${port} -h${ip} -D ${path} --no-create-info   --where="id < ${maxid} and id >= ${minid} " > /data/all/${path}.sql ;
   #表结构
   mysqldump -u ${user} -p${password} -P${port} -h${ip} -D ${path} ${match_str}  --no-data > 100000.sql  
@@ -88,5 +90,9 @@ for i in ${time};do
 done
 }
 
-＃导入新的数据库
-for i in `ls *.sql`;do echo ${i};mysql -u ${user} -p${password} -P${port} -h${ip} －D NEWDB < ${i};done
+date_back
+date_sql
+clear_date
+#导入新的数据库,可以使用新的数据库名
+for i in `ls *.sql`;do echo ${i};mysql -u ${user} -p${password} -P${port} -h${ip} －D NEWDB < ${i};done   #此处会先导入100000.sql初始化表结构，再导入数据
+#此处可选择将处理好的数据，再导出成sql，只需利用mysqldump的方式即可，不再赘述。
