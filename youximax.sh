@@ -40,6 +40,7 @@ while :;do
 		read -p "你还有梦想吗，骚年？如果有再次充值就可以实现你的梦想：" money
 		case $money in
 		80)
+			cishu=0
 			echo -e "\033[92m充值成功！\033[0m" && continue
 			;;
 		*)
