@@ -1,3 +1,4 @@
+```python
 import urllib
 import urllib2
 import cookielib
@@ -18,3 +19,4 @@ request.add_header("User-Agent",Agent)
 
 response=urllib2.urlopen(request).read()
 print response
+```
