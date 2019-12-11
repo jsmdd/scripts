@@ -1,3 +1,4 @@
+```shell
 #!/bin/bash
 #by yassor 19.7
 #数据库为nginx_logs
@@ -208,3 +209,4 @@ INSERT_ONE
 INSERT_TWO
 INSERT_THREE
 INSERT_FOUR
+```
