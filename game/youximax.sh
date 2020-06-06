@@ -8,7 +8,7 @@ while :;do
 	let cishu++
 	cishu_1=$[cishu%8]
 	abc=0
-	if ! expr $pass + 1 &>/dev/null;then
+	if ! expr $pass + 1 &>/dev/null;then  # 用来判断输入参数是否为整数
 		echo -e "\033[33m请输入1-150的数字，你已经用了\033[0m\033[91m$cishu次机会了\033[0m"
 	elif [ -z $pass ];then
 		echo -e "\033[34m你他么还不猜了？那你你别猜了\033[0m"
